@@ -1,0 +1,4 @@
+SHELL=/bin/bash
+
+# m h dom mon dow   user   command
+*/5 * * * * application cd /app && /usr/local/bin/php /app/scheduler.php
