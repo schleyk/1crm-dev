@@ -30,7 +30,7 @@ if [[ -n "${CRM_DB_PASSWORD+x}" && ! -e "/app/include/config/local_config.php" ]
 	fi
 	crm_admin_password=visual4
 	if [[ -n "${CRM_ADMIN_PASSWORD+x}" ]]; then
-		crm_password=$CRM_ADMIN_PASSWORD
+		crm_admin_password=$CRM_ADMIN_PASSWORD
 	fi
-	cd /app && /usr/local/bin/php install.php -d $db_name -h $db_host -u $db_user -p "$CRM_DB_PASSWORD" -a $db_user -w  "$CRM_DB_PASSWORD" --url $crm_url --ap $CRM_ADMIN_PASSWORD --wc
+	cd /app && /usr/local/bin/php install.php -d $db_name -h $db_host -u $db_user -p "$CRM_DB_PASSWORD" -a $db_user -w  "$CRM_DB_PASSWORD" --url $crm_url --ap $crm_admin_password --wc 
 fi
