@@ -20,6 +20,10 @@ if [[ -n "${CRM_DB_PASSWORD+x}" && ! -e "/app/include/config/local_config.php" ]
 	if [[ -n "${CRM_DB_HOST+x}" ]]; then
 		db_host=$CRM_DB_HOST
 	fi
+	db_user="onecrm"
+	if [[ -n "${CRM_DB_USER+x}" ]]; then
+		db_user=$CRM_DB_USER
+	fi
 	crm_url="1crm.dev"
 	if [[ -n "${CRM_URL+x}" ]]; then
 		crm_url=$CRM_URL
