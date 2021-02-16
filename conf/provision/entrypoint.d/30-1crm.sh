@@ -28,5 +28,5 @@ if [[ -n "${CRM_DB_PASSWORD+x}" && ! -e "/app/include/config/local_config.php" ]
 	if [[ -n "${CRM_URL+x}" ]]; then
 		crm_url=$CRM_URL
 	fi
-	cd /app && /usr/bin/php install.php -d $db_name -h $db_host -u $db_user -p "$CRM_DB_PASSWORD" -a $db_user -w  "$CRM_DB_PASSWORD" --url $crm_url --ap visual4 --wc
+	cd /app && /usr/local/bin/php install.php -d $db_name -h $db_host -u $db_user -p "$CRM_DB_PASSWORD" -a $db_user -w  "$CRM_DB_PASSWORD" --url $crm_url --ap visual4 --wc
 fi
