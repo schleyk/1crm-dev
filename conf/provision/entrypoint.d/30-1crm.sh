@@ -11,17 +11,17 @@ if [[ ! -e "/app/sugar_version.php" ]]; then
 	sed -i 's/logs_dir: logs\//logs_dir: ""/' /app/include/config/standard/site.php 
 	sed -i 's/file: site.log/file: "php:\/\/stderr"\n    dir: ""/' /app/include/config/standard/site.php
 fi
-if [[ $CRM_DB_PASSWORD && ! -e "/app/include/config/local_config.php" ]]; then
+if [[ -n "${CRM_DB_PASSWORD+x}" && ! -e "/app/include/config/local_config.php" ]]; then
 	db_name="onecrm"
-	if [[ $CRM_DB_NAME ]]; then
+	if [[ -n "${CRM_DB_NAME+x}" ]]; then
 		db_name=$CRM_DB_NAME
 	fi
 	db_host="mysql"
-	if [[ $CRM_DB_HOST ]]; then
+	if [[ -n "${CRM_DB_HOST+x}" ]]; then
 		db_host=$CRM_DB_HOST
 	fi
 	crm_url="1crm.dev"
-	if [[ $CRM_URL ]]; then
+	if [[ -n "${CRM_URL+x}" ]]; then
 		crm_url=$CRM_URL
 	fi
 	cd /app && /usr/bin/php install.php -d $db_name -h $db_host -u $db_user -p "$CRM_DB_PASSWORD" -a $db_user -w  "$CRM_DB_PASSWORD" --url $crm_url --ap visual4 --wc
