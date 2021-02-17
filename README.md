@@ -17,14 +17,14 @@ Alle Umgebungsvariablen zur Konfiguration von NGINX und PHP des webdevops/php-ng
 
 ### Nutzung mit docker-compose
 
-folgende docker-compose.yml anlegen und den Pfad ```~/source/web/``` ersetzen
+folgende docker-compose.yml anlegen:
 ```
 version: "3"
 services:
-    web:
+    1crm:
         image: gitlab.visual4.de:5050/docker/nginx-php-1crm:latest
         volumes:
-            - "~/source/web/:/app"            
+            - "crm_storage:/app"            
         ports:
             - "80:80"
             - "443:443"           
@@ -33,9 +33,14 @@ services:
         depends_on:
             - mysql
         environment:
-            - WEB_ALIAS_DOMAIN=1crm.local.dev
-            - PHP_MEMORY_LIMIT=2048M
-            - PHP_MAX_EXECUTION_TIME=-1            
+            WEB_ALIAS_DOMAIN: 1crm.dev
+            # CRM_DB_PASSWORD is required to start installation if local_config.php is missing
+            CRM_DB_PASSWORD: visual4
+            # CRM_DB_NAME default onecrm
+            # CRM_DB_HOST default mysql
+            # CRM_DB_USER default onecrm
+            # CRM_URL default https://1crm.dev
+            # CRM_ADMIN_PASSWORD default visual4
     mysql:
         image: mariadb:latest
         environment: 
@@ -43,16 +48,26 @@ services:
             MYSQL_DATABASE: onecrm
             MYSQL_USER: onecrm
             MYSQL_PASSWORD: visual4
-        ports:
-            - "3306:3306"
         volumes:
             - "mysql_storage:/var/lib/mysql"
         
 volumes:
     mysql_storage:
+    crm_storage:
+
 ```
 
-1CRM mit ```#> docker-compose up -d``` starten, 1CRM ist dann über Port 80 und mit SSL über 443 erreichbar. Während der Installation muss als Datenbankserver ```mysql``` eingegeben werden, die Zugangsdaten können in der ddocker-compose.yml angepasst werden.
+1CRM mit ```#> docker-compose up -d``` starten, 1CRM ist dann über Port 80 und mit SSL über 443 erreichbar.
+#### automatischer Download von 1CRM
+falls in /app keine Datei "sugar_version.php" vorhanden ist, also auch bei einer erstmaligen Installation, startet der automatische Download von 1CRM. Die Dateien werden in das /app-Verzeichnis, bzw. crm_storage oder das entsprechend gemountete Volume entpackt.
+In crm_storage und mysql_storage werden alle Daten von 1CRM gespeichert, eine passende Backupstrategie sollte also, insbesondere bei Produktivsystemen vorgesehen werden.
+
+#### automatische Installation
+Dadurch, dass in der compose-Datei die Umgebungsvariable CRM_DB_PASSWORD mitgegeben wird, startet die 1CRM Installation direkt nach dem Download. 
+
+#### manuelle Installation
+wenn die Variable CRM_DB_PASSWORD auskommentiert wird, erfolgt keine automatische Installation, beim Zugriff wird der Installer von 1CRM angezeigt.
+Während der Installation muss als Datenbankserver ```mysql``` eingegeben werden, die Zugangsdaten können in der ddocker-compose.yml angepasst werden.
 
 > Docker muss natürlich inklusive docker-compose installiert sein. Die Installation unter Windows ist unter https://docs.docker.com/docker-for-windows/install/ beschrieben oder für bessere Performance mit WSL2: https://docs.docker.com/docker-for-windows/wsl/.
 > unter Linux gibt es umfangreiche Anleitungen für jede Distribution unter Ubuntu muss z.B. erst [Docker](https://docs.docker.com/engine/install/ubuntu/) und dann [Docker-Compose](https://docs.docker.com/compose/install/) installiert werden.
