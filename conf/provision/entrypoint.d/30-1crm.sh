@@ -32,5 +32,13 @@ if [[ -n "${CRM_DB_PASSWORD+x}" && ! -e "/app/include/config/local_config.php" ]
 	if [[ -n "${CRM_ADMIN_PASSWORD+x}" ]]; then
 		crm_admin_password=$CRM_ADMIN_PASSWORD
 	fi
+	## check if mysql is reachable
+	check=$(curl http://$db_host:3306 2>&1| grep -o mysql)
+	while [ -z $check ]; do
+		echo "waiting for MySQL..."
+		sleep 5s
+		check=$(curl http://$db_host:3306 2>&1| grep -o mysql)
+	done
+	### 1CRM installation
 	cd /app && /usr/local/bin/php install.php -d $db_name -h $db_host -u $db_user -p "$CRM_DB_PASSWORD" -a $db_user -w  "$CRM_DB_PASSWORD" --url $crm_url --ap $crm_admin_password --wc 
 fi
