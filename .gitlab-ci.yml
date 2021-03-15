@@ -3,6 +3,8 @@ before_script:
   - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
 
 build:
+  tags:
+    - shell
   stage: build
   script:
     - docker build -t $CI_REGISTRY/docker/nginx-php-1crm:latest .
