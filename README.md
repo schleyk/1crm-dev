@@ -18,7 +18,7 @@ Alle Umgebungsvariablen zur Konfiguration von NGINX und PHP des webdevops/php-ng
 ### Nutzung mit docker-compose
 
 folgende docker-compose.yml anlegen:
-```
+```yaml
 version: "3"
 services:
     1crm:
