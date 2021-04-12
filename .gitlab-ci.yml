@@ -16,8 +16,8 @@ build:
     - docker build -t $CI_REGISTRY/docker/nginx-php-1crm:latest .
     - docker push $CI_REGISTRY/docker/nginx-php-1crm:latest
     - 'version="$(grep -m 1 ^\$sugar_version.*= src/sugar_version.php)"'
-    - 'version="${version#*\'}"'
-    - 'version="${version%\'*}"'
+    - 'version="${version#*\''}"'
+    - 'version="${version%\''*}"'
     - docker build -t $CI_REGISTRY/docker/nginx-php-1crm:$version
     - docker push $CI_REGISTRY/docker/nginx-php-1crm:$version
 
