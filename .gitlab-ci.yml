@@ -13,7 +13,7 @@ build:
     - shell
   stage: build
   script:
-    - "branch=$(( $CI_COMMIT_BRANCH == 'master' ? 'latest' : $CI_COMMIT_BRANCH ))"
+    - "branch='latest' && [[ $CI_COMMIT_BRANCH != 'master' ]] && branch=$CI_COMMIT_BRANCH"
     - docker build -t $CI_REGISTRY/docker/nginx-php-1crm:$branch .
     - docker push $CI_REGISTRY/docker/nginx-php-1crm:$branch
     
