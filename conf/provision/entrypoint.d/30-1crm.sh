@@ -3,7 +3,7 @@
 #############################
 
 if [[ ! -e "/app/sugar_version.php" ]]; then
-	wget https://1crm-system.de/downloads/1CRM_DE_8.6.11-804.zip -O download.zip
+	wget https://1crm-system.de/downloads/1CRM_DE_8.6.13-811.zip -O download.zip
 	unzip download.zip -d /app
 	rm download.zip
 	chown application:application /app -R
