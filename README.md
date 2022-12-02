@@ -9,15 +9,17 @@ das Image basiert auf [webdevops/php-nginx](https://dockerfile.readthedocs.io/en
 das Image hört auf den Ports 80 und 443, ein selbstsigniertes Zertifikat ist enthalten.  Als volume wird /app exportiert.
 Alle Umgebungsvariablen zur Konfiguration von NGINX und PHP des webdevops/php-nginx Images funktionieren.
 
+### Installation von Docker
+Voraussetzung für die Installation ist ein installiertes Docker inklusive Docker Compose
+- Die Installation unter Windows, Mac und Linux ist unter https://docs.docker.com/get-docker/ beschrieben 
+- NAS-Systeme von QNAP und Synology bringen z.B. die  ContainerStation mit, über die Docker-Container ausgeführt werden können
+
+> Wichtig bei Produktivumgebungen: Docker löscht Daten, wenn ein Container gelöscht wird! Backup und Konfiguration der Volumes sind entscheidend  um Datenverlust zu vermeiden
+
 ### Nutzung mit Docker:
-```
-#> docker run -d -p 8443:443 -v /path/to/1crm-data:app --name 1crm gitlab.visual4.de:5050/docker/nginx-php-1crm:latest
-```
-1CRM kann danach über https://localhost:8443 augerufen werden. Die 1CRM-Dateien liegen in /path/to/1crm-data (im Aufruf durch eigenes lokales Verzeichnis ersetzen)
 
-### Nutzung mit docker-compose
+Legen Sie eine Datei docker-compose.yml mit folgendem Inhalt an:
 
-folgende docker-compose.yml anlegen:
 ```yaml
 version: "3"
 services:
@@ -69,8 +71,5 @@ Dadurch, dass in der compose-Datei die Umgebungsvariable CRM_DB_PASSWORD mitgege
 wenn die Variable CRM_DB_PASSWORD auskommentiert wird, erfolgt keine automatische Installation, beim Zugriff wird der Installer von 1CRM angezeigt.
 Während der Installation muss als Datenbankserver ```mysql``` eingegeben werden, die Zugangsdaten können in der ddocker-compose.yml angepasst werden.
 
-> Docker muss natürlich inklusive docker-compose installiert sein. Die Installation unter Windows ist unter https://docs.docker.com/docker-for-windows/install/ beschrieben oder für bessere Performance mit WSL2: https://docs.docker.com/docker-for-windows/wsl/.
-> unter Linux gibt es umfangreiche Anleitungen für jede Distribution unter Ubuntu muss z.B. erst [Docker](https://docs.docker.com/engine/install/ubuntu/) und dann [Docker-Compose](https://docs.docker.com/compose/install/) installiert werden.
 
-> Wichtig bei Produktivumgebungen: Docker löscht Daten, wenn ein Container gelöscht wird! Backup und Konfiguration der Volumes sind entscheidend  um Datenverlust zu vermeiden
 
