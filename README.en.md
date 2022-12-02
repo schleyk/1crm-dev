@@ -8,14 +8,13 @@ the image is based on [webdevops/php-nginx](https://dockerfile.readthedocs.io/en
 
 the image listens on ports 80 and 443, a self-signed certificate is included.  As volume /app is exported.
 All environment variables to configure NGINX and PHP of the webdevops/php-nginx image work.
+### Docker installation
 
-### Usage with Docker:
-```
-#> docker run -d -p 8443:443 -v /path/to/1crm-data:app --name 1crm gitlab.visual4.en:5050/docker/nginx-php-1crm:latest
-```
-1CRM can then be called via https://localhost:8443. The 1CRM files are located in /path/to/1crm-data (replace with your own local directory in the call).
+You'll find information on how to install docker on https://docs.docker.com/get-docker/
 
-### Use with docker-compose
+> Important for production environments: Docker deletes data when a container is deleted! Backup and configuration of the volumes are crucial to avoid data loss
+
+### 1CRM with Docker:
 
 create the following docker-compose.yml:
 ```yaml
@@ -69,10 +68,3 @@ Because the environment variable CRM_DB_PASSWORD is included in the compose file
 #### manual installation
 if the variable CRM_DB_PASSWORD is commented out, there is no automatic installation, when accessing it, the installer of 1CRM is displayed.
 During the installation ``mysql`` must be entered as database server, the credentials can be customized in the ddocker-compose.yml.
-
-> Docker must of course be installed including docker-compose. The installation under Windows is described at https://docs.docker.com/docker-for-windows/install/ or for better performance with WSL2: https://docs.docker.com/docker-for-windows/wsl/.
-> under Linux there are extensive instructions for each distribution under Ubuntu e.g. first [Docker](https://docs.docker.com/engine/install/ubuntu/) and then [Docker-Compose](https://docs.docker.com/compose/install/) must be installed.
-
-> Important for production environments: Docker deletes data when a container is deleted! Backup and configuration of the volumes are crucial to avoid data loss
-
-Translated with www.DeepL.com/Translator (free version)
