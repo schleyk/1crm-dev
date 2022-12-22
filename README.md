@@ -1,5 +1,5 @@
 # 1CRM Docker Image
-das Image basiert auf [webdevops/php-nginx](https://dockerfile.readthedocs.io/en/latest/content/DockerImages/dockerfiles/php-nginx.html). Die Basis ist dabei php-fpm 7.4 mit 1CRM spezifisschen Konfigurationen:
+das Image basiert auf [webdevops/php-nginx](https://dockerfile.readthedocs.io/en/latest/content/DockerImages/dockerfiles/php-nginx.html). Die Basis ist dabei php-fpm 8.1 mit 1CRM spezifisschen Konfigurationen:
 - 1crmredirects sind enthalten
 - das 1CRM Logfile wird an stdout weitergeleitet um es mit docker logs ausgeben zu können
 - bei der Initialisierung wird 1CRM heruntergeladen und nach /app entpackt (falls keine sugar_version.php vorhanden ist)
