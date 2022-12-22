@@ -9,6 +9,8 @@ das Image basiert auf [webdevops/php-nginx](https://dockerfile.readthedocs.io/en
 das Image hört auf den Ports 80 und 443, ein selbstsigniertes Zertifikat ist enthalten.  Als volume wird /app exportiert.
 Alle Umgebungsvariablen zur Konfiguration von NGINX und PHP des webdevops/php-nginx Images funktionieren.
 
+> Falls der Webserver über andere Ports als 80 und 443 laufen soll, muss die 1CRM-Installation manuell durchgeführt werden, das heisst CRM_DB_PASSWORD darf nicht gesetzt sein.
+
 ### Installation von Docker
 Voraussetzung für die Installation ist ein installiertes Docker inklusive Docker Compose
 - Die Installation unter Windows, Mac und Linux ist unter https://docs.docker.com/get-docker/ beschrieben 

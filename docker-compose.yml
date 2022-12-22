@@ -1,0 +1,35 @@
+version: "3"
+services:
+    1crm:
+        image: gitlab.visual4.de:5050/docker/nginx-php-1crm:latest
+        volumes:
+            - "crm_storage:/app"            
+        ports:
+            - "80:80"
+            - "443:443"           
+        links:
+            - mysql
+        depends_on:
+            - mysql
+        environment:
+            WEB_ALIAS_DOMAIN: 1crm.dev
+            # CRM_DB_PASSWORD is required to start installation if local_config.php is missing
+            CRM_DB_PASSWORD: visual4
+            # CRM_DB_NAME default onecrm
+            # CRM_DB_HOST default mysql
+            # CRM_DB_USER default onecrm
+            # CRM_URL default https://1crm.dev
+            # CRM_ADMIN_PASSWORD default visual4
+    mysql:
+        image: mariadb:latest
+        environment: 
+            MYSQL_ROOT_PASSWORD: visual4
+            MYSQL_DATABASE: onecrm
+            MYSQL_USER: onecrm
+            MYSQL_PASSWORD: visual4
+        volumes:
+            - "mysql_storage:/var/lib/mysql"
+        
+volumes:
+    mysql_storage:
+    crm_storage:
