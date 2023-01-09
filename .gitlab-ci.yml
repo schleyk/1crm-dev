@@ -3,6 +3,10 @@ stages:
   - test
 include:
   - template: Security/SAST.gitlab-ci.yml
+variables:
+  # Version aktualisieren bei Änderung der Download-URL
+  VERSION: "8.7.4"
+
 
 before_script:
   - docker info
@@ -13,11 +17,22 @@ build:
     - shell
   stage: build
   script:
-    - "branch='latest' && [[ $CI_COMMIT_BRANCH != 'master' ]] && branch=$CI_COMMIT_BRANCH"
+    - "branch=$VERSION && [[ $CI_COMMIT_REF_NAME != 'master' ]] && branch=$VERSION_$CI_COMMIT_REF_NAME"
     - docker build -t $CI_REGISTRY/docker/nginx-php-1crm:$branch .
     - docker push $CI_REGISTRY/docker/nginx-php-1crm:$branch
     - echo "Pushed Image Tag $branch"
     
+build_latest:
+  tags: 
+    - shell
+  stage: build
+  rules:
+    - if: $CI_COMMIT_REF_NAME == "master"
+    - if: $CI_COMMIT_REF_NAME == "main"
+  script:
+    - docker build -t $CI_REGISTRY/docker/nginx-php-1crm:latest .
+    - docker push $CI_REGISTRY/docker/nginx-php-1crm:latest
+    - echo "Pushed Image Tag $branch"
 
 
 sast:
