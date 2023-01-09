@@ -17,7 +17,7 @@ build:
     - shell
   stage: build
   script:
-    - "branch=$VERSION && [[ $CI_COMMIT_REF_NAME != 'master' ]] && branch=$VERSION_$CI_COMMIT_REF_NAME"
+    - "branch=$VERSION && [[ $CI_COMMIT_REF_NAME != 'master' ]] && branch=$VERSION-$CI_COMMIT_REF_NAME"
     - docker build -t $CI_REGISTRY/docker/nginx-php-1crm:$branch .
     - docker push $CI_REGISTRY/docker/nginx-php-1crm:$branch
     - echo "Pushed Image Tag $branch"
