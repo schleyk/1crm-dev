@@ -18,7 +18,7 @@ Voraussetzung für die Installation ist ein installiertes Docker inklusive Docke
 
 > Wichtig bei Produktivumgebungen: Docker löscht Daten, wenn ein Container gelöscht wird! Backup und Konfiguration der Volumes sind entscheidend  um Datenverlust zu vermeiden
 
-### Nutzung mit Docker:
+### Nutzung von Docker Compose als Testsystem für 1CRM:
 
 Legen Sie eine Datei docker-compose.yml mit folgendem Inhalt an:
 
@@ -38,13 +38,15 @@ services:
             - mysql
         environment:
             WEB_ALIAS_DOMAIN: 1crm.dev
-            # CRM_DB_PASSWORD is required to start installation if local_config.php is missing
+            ## CRM_DB_PASSWORD is required to start installation if local_config.php is missing
             CRM_DB_PASSWORD: visual4
             # CRM_DB_NAME default onecrm
             # CRM_DB_HOST default mysql
             # CRM_DB_USER default onecrm
             # CRM_URL default https://1crm.dev
             # CRM_ADMIN_PASSWORD default visual4
+            ## php.ini settings, see https://dockerfile.readthedocs.io/en/latest/content/DockerImages/dockerfiles/php.html#php-ini-variables
+            php.error_reporting: "E_ALL & ~E_WARNING & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED"
     mysql:
         image: mariadb:latest
         environment: 
@@ -61,7 +63,8 @@ volumes:
 
 ```
 
-1CRM mit ```#> docker-compose up -d``` starten, 1CRM ist dann über Port 80 und mit SSL über 443 erreichbar.
+1CRM mit ```#> docker compose up``` starten, 1CRM ist dann über Port 80 und mit SSL über 443 erreichbar.
+
 #### automatischer Download von 1CRM
 falls in /app keine Datei "sugar_version.php" vorhanden ist, also auch bei einer erstmaligen Installation, startet der automatische Download von 1CRM. Die Dateien werden in das /app-Verzeichnis, bzw. crm_storage oder das entsprechend gemountete Volume entpackt.
 In crm_storage und mysql_storage werden alle Daten von 1CRM gespeichert, eine passende Backupstrategie sollte also, insbesondere bei Produktivsystemen vorgesehen werden.
@@ -73,5 +76,13 @@ Dadurch, dass in der compose-Datei die Umgebungsvariable CRM_DB_PASSWORD mitgege
 wenn die Variable CRM_DB_PASSWORD auskommentiert wird, erfolgt keine automatische Installation, beim Zugriff wird der Installer von 1CRM angezeigt.
 Während der Installation muss als Datenbankserver ```mysql``` eingegeben werden, die Zugangsdaten können in der ddocker-compose.yml angepasst werden.
 
+### Nutzung von Docker Compose als Live-System für 1CRM:
+die oben gezeigte Konfigurationsdatei kann als Startpunkt für eigene Konfigurationen verwendet werden. Für ein Live- oder Produktivsystem müssen zumindest die folgenden Punkte individuell gelöst und konfiguriert werden:
 
+- Verwendung sicherer Passwörter, Auslagerung in eine .env-Datei
+- Erstellung persistenter Volumes für 1CRM und MariaDB
+- Verwendung eines gültigen SSL-Zertifikates mit eigener Domain, z.B. über einen Letsencrypt-Reverse-Proxy oder einen Loadbalancer
+- Daemonisierung und automatischer Start der Container
+- Backup der Volumes, Backup der Datenbank über mysqldump
+- regelmässige Aktualisierung der Basis-Images
 
