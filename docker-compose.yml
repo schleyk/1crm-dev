@@ -1,7 +1,7 @@
 version: "3"
 services:
     1crm:
-        image: gitlab.visual4.de:5050/docker/nginx-php-1crm:latest
+        image: gitlab.visual4.de:5050/docker/nginx-php-1crm:8.7.4
         volumes:
             - "crm_storage:/app"            
         ports:
@@ -20,6 +20,8 @@ services:
             # CRM_DB_USER default onecrm
             # CRM_URL default https://1crm.dev
             # CRM_ADMIN_PASSWORD default visual4
+            ## php.ini settings, see https://dockerfile.readthedocs.io/en/latest/content/DockerImages/dockerfiles/php.html#php-ini-variables
+            php.error_reporting: "E_ALL & ~E_WARNING & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED"
     mysql:
         image: mariadb:latest
         environment: 

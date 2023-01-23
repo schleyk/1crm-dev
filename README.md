@@ -26,7 +26,7 @@ Legen Sie eine Datei docker-compose.yml mit folgendem Inhalt an:
 version: "3"
 services:
     1crm:
-        image: gitlab.visual4.de:5050/docker/nginx-php-1crm:latest
+        image: gitlab.visual4.de:5050/docker/nginx-php-1crm:8.7.4
         volumes:
             - "crm_storage:/app"            
         ports:
@@ -79,10 +79,13 @@ Während der Installation muss als Datenbankserver ```mysql``` eingegeben werden
 ### Nutzung von Docker Compose als Live-System für 1CRM:
 die oben gezeigte Konfigurationsdatei kann als Startpunkt für eigene Konfigurationen verwendet werden. Für ein Live- oder Produktivsystem müssen zumindest die folgenden Punkte individuell gelöst und konfiguriert werden:
 
+- ggf. direkte Verwendung von PHP- und NGINX Docker-Images, hier muss Sicherheit gegen Einfachheit abgewogen werden.
 - Verwendung sicherer Passwörter, Auslagerung in eine .env-Datei
 - Erstellung persistenter Volumes für 1CRM und MariaDB
 - Verwendung eines gültigen SSL-Zertifikates mit eigener Domain, z.B. über einen Letsencrypt-Reverse-Proxy oder einen Loadbalancer
 - Daemonisierung und automatischer Start der Container
 - Backup der Volumes, Backup der Datenbank über mysqldump
-- regelmässige Aktualisierung der Basis-Images
+- regelmässige Aktualisierung der Basis-Images um Sicherheitsupdates in PHP, MariaDB und NGINX zeitnah einzuspielen. Der visual4-Buildserver aktualisiert wöchentlich das master/latest-Image auf Basis des webdevops/php-nginx Basisimages.
+
+> Aufgrund der mehrstufigen Software-Supply-Chain übernimmt die visual4 GmbH keine Verantwortung für das rechtzeitige Einspielen von erforderlichen Sicherheitsupdates in die unter gitlab.visual4.de zu testzwecken zur Verfügung gestellten Docker-Images.
 

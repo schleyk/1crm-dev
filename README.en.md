@@ -14,14 +14,14 @@ You'll find information on how to install docker on https://docs.docker.com/get-
 
 > Important for production environments: Docker deletes data when a container is deleted! Backup and configuration of the volumes are crucial to avoid data loss
 
-### 1CRM with Docker:
+### 1CRM **Sandbox** system with Docker:
 
 create the following docker-compose.yml:
 ```yaml
 version: "3"
 services:
     1crm:
-        image: gitlab.visual4.de:5050/docker/nginx-php-1crm:latest
+        image: gitlab.visual4.de:5050/docker/nginx-php-1crm:8.7.4
         volumes:
             - "crm_storage:/app"            
         ports:
@@ -68,3 +68,5 @@ Because the environment variable CRM_DB_PASSWORD is included in the compose file
 #### manual installation
 if the variable CRM_DB_PASSWORD is commented out, there is no automatic installation, when accessing it, the installer of 1CRM is displayed.
 During the installation ``mysql`` must be entered as database server, the credentials can be customized in the ddocker-compose.yml.
+
+> **this configuration is meant for testing only!** Within the German README, you will find additional things to do for production setups.
