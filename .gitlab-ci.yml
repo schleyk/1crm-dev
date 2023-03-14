@@ -5,7 +5,7 @@ include:
   - template: Security/SAST.gitlab-ci.yml
 variables:
   # Version aktualisieren bei Änderung der Download-URL
-  VERSION: "8.7.4"
+  VERSION: "8.7"
 
 
 before_script:
