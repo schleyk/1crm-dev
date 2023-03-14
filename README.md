@@ -31,7 +31,7 @@ Legen Sie eine Datei docker-compose.yml mit folgendem Inhalt an:
 version: "3"
 services:
     1crm:
-        image: gitlab.visual4.de:5050/docker/nginx-php-1crm:8.7.4
+        image: gitlab.visual4.de:5050/docker/nginx-php-1crm:8.7
         volumes:
             - "crm_storage:/app"            
         ports:
@@ -82,7 +82,7 @@ wenn die Variable CRM_DB_PASSWORD auskommentiert wird, erfolgt keine automatisch
 Während der Installation muss als Datenbankserver ```mysql``` eingegeben werden, die Zugangsdaten können in der ddocker-compose.yml angepasst werden.
 
 ### Update des Images
-über gitlab.visual4.de werden regelmässig neue Versionen des Images mit aktualisierten Upstream-Paketen erstellt. Die aktualisierten Images können mithilfe von ```docker pull gitlab.visual4.de:5050/docker/nginx-php-1crm:latest``` heruntergeladen werden (ggf. Version/Tag anpassen). 1CRM aktualisiert sich nicht automatisch, das muss im Rahmen einer gültigen Subscription über die integrierte Update-Funktion erfolgen, aber NGINX und PHP werden durch den Pull aktualisiert. Entsprechend sollte auch mit dem Datenbank-Image verfahren werden.
+über gitlab.visual4.de werden regelmässig neue Versionen des Images mit aktualisierten Upstream-Paketen erstellt. Die aktualisierten Images können mithilfe von ```docker pull gitlab.visual4.de:5050/docker/nginx-php-1crm:8.7``` heruntergeladen werden (ggf. Version/Tag anpassen). **1CRM aktualisiert sich nicht automatisch durch das Update des Container-Images**, wenn wie im Beispiel gezeigt ein Volume für /app definiert wurde, bleiben alle 1CRM-Dateien und Anpassungen bestehen. Ein 1CRM Update muss im Rahmen einer gültigen Subscription über die in 1CRM integrierte Update-Funktion erfolgen. NGINX und PHP werden durch den Pull aktualisiert. Entsprechend sollte auch mit dem Datenbank-Image verfahren werden.
 
 ### Nutzung von Docker Compose als Live-System für 1CRM:
 die oben gezeigte Konfigurationsdatei kann als Startpunkt für eigene Konfigurationen verwendet werden. Für ein Live- oder Produktivsystem müssen zumindest die folgenden Punkte individuell gelöst und konfiguriert werden:
@@ -95,5 +95,5 @@ die oben gezeigte Konfigurationsdatei kann als Startpunkt für eigene Konfigurat
 - Backup der Volumes, Backup der Datenbank über mysqldump
 - regelmässige Aktualisierung der Basis-Images um Sicherheitsupdates in PHP, MariaDB und NGINX zeitnah einzuspielen. Der visual4-Buildserver aktualisiert wöchentlich das master/latest-Image auf Basis des webdevops/php-nginx Basisimages.
 
-> Aufgrund der mehrstufigen Software-Supply-Chain übernimmt die visual4 GmbH keine Verantwortung für das rechtzeitige Einspielen von erforderlichen Sicherheitsupdates in die unter gitlab.visual4.de zu testzwecken zur Verfügung gestellten Docker-Images.
+> Aufgrund der mehrstufigen Software-Supply-Chain kann die visual4 GmbH keine Verantwortung für das rechtzeitige Einspielen von erforderlichen Sicherheitsupdates in die unter gitlab.visual4.de zu Testzwecken zur Verfügung gestellten Docker-Images übernehmen. Das Image basiert, wie bereits beschrieben auf webdevops/php-nginx, das wiederum auf Debian Buster basiert, PHP-Pakete werden von Ondrej Sury aktuell gehalten. Die unterstützten Versionen von WebdevOps finden sich unter https://github.com/webdevops/Dockerfile#debian-php, die von Ondrej Sury gepflegten PHP-Versionen sind etwas schwieriger zu finden, sollten aber mit der Liste unter https://www.freexian.com/lts/php/ übereinstimmen, d.h. aktuell (03-2023) wird auch das für das 1CRM 8.6.16-Image verwendete PHP7.4 mit Sicherheitsupdates über Backports versorgt.
 

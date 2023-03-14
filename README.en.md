@@ -21,7 +21,7 @@ create the following docker-compose.yml:
 version: "3"
 services:
     1crm:
-        image: gitlab.visual4.de:5050/docker/nginx-php-1crm:8.7.4
+        image: gitlab.visual4.de:5050/docker/nginx-php-1crm:8.7
         volumes:
             - "crm_storage:/app"            
         ports:
