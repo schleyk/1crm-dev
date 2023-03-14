@@ -30,9 +30,13 @@ build_latest:
     - if: $CI_COMMIT_REF_NAME == "master"
     - if: $CI_COMMIT_REF_NAME == "main"
   script:
+    # 8.7.4 am 14.03.2023 durch 8.7 ersetzt, um Minor-Versionen im selben Tag aktualisiert zu bekommen
+    - docker build -t $CI_REGISTRY/docker/nginx-php-1crm:8.7.4 .
+    - docker push $CI_REGISTRY/docker/nginx-php-1crm:8.7.4
+    # latest eigentlich nicht verwenden! Da bei einem Major-Update PHP inkompatibilitäten auftreten können
     - docker build -t $CI_REGISTRY/docker/nginx-php-1crm:latest .
     - docker push $CI_REGISTRY/docker/nginx-php-1crm:latest
-    - echo "Pushed Image Tag $branch"
+   
 
 
 sast:
